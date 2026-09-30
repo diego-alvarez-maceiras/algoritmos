@@ -180,6 +180,7 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
                 parent.left = new_root
             else:
                 parent.right = new_root
+        return new_root
 
     def __rotate_left_right(self: typing.Self) -> typing.Self:
         """Realiza una rotación doble Izquierda-Derecha (Caso LR).
