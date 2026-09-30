@@ -165,7 +165,21 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
         Returns:
             AVLTree[T]: La nueva raíz local del subárbol rotado (`new_root`).
         """
-        ...
+        parent = self.parent
+        new_root = self.right
+
+        if new_root is None:
+            raise RuntimeError("No se puede rotar a la izquierda sin un subárbol derecho")
+
+        self.right = new_root.left
+        new_root.right = self
+
+        new_root.parent = parent
+        if parent is not None and parent.value is not None and new_root.value is not None:
+            if new_root.value < parent.value:
+                parent.left = new_root
+            else:
+                parent.right = new_root
 
     def __rotate_left_right(self: typing.Self) -> typing.Self:
         """Realiza una rotación doble Izquierda-Derecha (Caso LR).
