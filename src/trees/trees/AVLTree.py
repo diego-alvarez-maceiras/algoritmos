@@ -86,7 +86,31 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
 
         Complejidad temporal: O(log n) garantizado.
         """
-        ...
+        super().insert(value)
+        nodo = self.find(value)
+
+        actual = nodo
+        while actual is not None:
+            balance = actual.balance
+
+            if balance > 1:
+                if actual.right is not None and actual.right.balance >= 0:
+                    actual = actual.__rotate_left()
+                else:
+                    actual = actual.__rotate_right_left()
+                actual = None
+
+            elif balance < -1:
+                if actual.left is not None and actual.left.balance <= 0:
+                    actual = actual.__rotate_right()
+                else:
+                    actual = actual.__rotate_left_right()
+                actual = None
+
+            else:
+                actual = actual.parent
+
+        return self.root
 
     def remove(self: typing.Self, value: T) -> typing.Self | None:
         """Elimina un valor del árbol AVL y rebalancea los nodos afectados.
@@ -109,7 +133,41 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
 
         Complejidad temporal: O(log n) garantizado.
         """
-        ...
+        nodo = self.find(value)
+        if nodo is None:
+            return self.root
+
+        if nodo.left is not None and nodo.right is not None:
+            sucesor = nodo.right
+            while sucesor.left is not None:
+                sucesor = sucesor.left
+            actual = nodo if sucesor.parent == nodo else sucesor.parent
+        else:
+            actual = nodo.parent
+
+        raiz = super().remove(value)
+        if raiz is None:
+            return None
+
+        while actual is not None:
+            padre = actual.parent
+            balance = actual.balance
+
+            if balance > 1:
+                if actual.right is not None and actual.right.balance >= 0:
+                    actual = actual.__rotate_left()
+                else:
+                    actual = actual.__rotate_right_left()
+                actual = actual.parent
+            elif balance < -1:
+                if actual.left is not None and actual.left.balance >= 0:
+                    actual = actual.__rotate_right()
+                else:
+                    actual = actual.__rotate_left_right()
+                actual = actual.parent
+            else:
+                actual = padre
+        return raiz.root
         
     def __rotate_right(self: typing.Self) -> typing.Self:
         """Realiza una rotación simple a la derecha (Caso Izquierda-Izquierda / LL).
@@ -172,7 +230,7 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
             raise RuntimeError("No se puede rotar a la izquierda sin un subárbol derecho")
 
         self.right = new_root.left
-        new_root.right = self
+        new_root.left = self
 
         new_root.parent = parent
         if parent is not None and parent.value is not None and new_root.value is not None:
@@ -195,7 +253,10 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
         Returns:
             AVLTree[T]: La nueva raíz local del subárbol tras la rotación doble.
         """
-        ...
+        if self.left is None:
+            raise RuntimeError("NO se puede rotar izquierda-derecha sin un hijo izquierdo")
+        self.left.__rotate_left()
+        return self.__rotate_right()
 
     def __rotate_right_left(self: typing.Self) -> typing.Self:
         """Realiza una rotación doble Derecha-Izquierda (Caso RL).
@@ -210,4 +271,7 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
         Returns:
             AVLTree[T]: La nueva raíz local del subárbol tras la rotación doble.
         """
-        ...
+        if self.right is None:
+            raise RuntimeError("NO se puede rotar derecha-izquierda sin un hijo derecho")
+        self.right.__rotate_right()
+        return self.__rotate_left()
