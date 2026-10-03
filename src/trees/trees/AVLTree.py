@@ -160,7 +160,7 @@ class AVLTree[T: Comparable](BinarySearchTree[T]):
                     actual = actual.__rotate_right_left()
                 actual = actual.parent
             elif balance < -1:
-                if actual.left is not None and actual.left.balance >= 0:
+                if actual.left is not None and actual.left.balance <= 0:
                     actual = actual.__rotate_right()
                 else:
                     actual = actual.__rotate_left_right()
