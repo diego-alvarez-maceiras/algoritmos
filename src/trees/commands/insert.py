@@ -1,7 +1,9 @@
 """Comando del intérprete para insertar un nuevo valor en el árbol."""
 
 from __future__ import annotations
-
+import json
+from dataclasses import asdict
+from .. import utils
 from ..trees import AVLTree, Comparable
 
 
@@ -43,4 +45,11 @@ def insert[T: Comparable](tree: AVLTree[T], value: str) -> AVLTree[T]:
     # 1. Parsear el string JSON 'value' a un objeto del modelo (ej: obj = utils.parse_json_to_character(value))
     # 2. Insertar el objeto en el árbol: tree = tree.insert(obj)
     # 3. Retornar la nueva raíz
-    ...
+
+    obj = utils.parse_json_to_node(value)
+    if obj in tree: #type: ignore
+        print(f"VALUE FOR KEY {obj.name} ALREADY EXISTS")
+        return tree
+    tree = tree.insert(obj) #type: ignore
+    print(f"VALUE {json.dumps(asdict(obj))} SUCCESSFULLY INSERTED")
+    return tree
