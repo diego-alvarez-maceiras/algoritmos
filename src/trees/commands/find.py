@@ -1,10 +1,10 @@
 """Comando del intérprete para buscar un valor en el árbol e imprimirlo."""
 
 from __future__ import annotations
-
+from dataclasses import asdict
 import json
-
 from ..trees import AVLTree, Comparable, Node
+from typing import cast
 
 
 def find[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T]:
@@ -41,9 +41,11 @@ def find[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T]:
     # 1. Localizar el nodo objetivo: result = tree.find(...)
     # 2. Imprimir en consola la información del nodo encontrado o mensaje de no hallado
     # 3. Retornar 'tree' intacto
-    result = tree.find(Node(name=key))  # type: ignore[arg-type]
+    
+    result = tree.find(cast(T, Node(name=key)))
     if result is None:
         print(f"KEY {key} NOT FOUND IN TREE")
     else:
-        print(f"FOUND VALUE {json.dumps(vars(result.value))} FOR KEY {key}")
+        node = cast(Node, result.value)
+        print(f"FOUND VALUE {json.dumps(asdict(node))} FOR KEY {key}")
     return tree
