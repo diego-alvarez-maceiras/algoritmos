@@ -3,6 +3,7 @@
 from __future__ import annotations
 import json
 from dataclasses import asdict
+from typing import cast
 from .. import utils
 from ..trees import AVLTree, Comparable
 
@@ -46,10 +47,11 @@ def insert[T: Comparable](tree: AVLTree[T], value: str) -> AVLTree[T]:
     # 2. Insertar el objeto en el árbol: tree = tree.insert(obj)
     # 3. Retornar la nueva raíz
 
-    obj = utils.parse_json_to_node(value)
+    node = utils.parse_json_to_node(value)
+    obj = cast(T, node)
     if obj in tree: #type: ignore
-        print(f"VALUE FOR KEY {obj.name} ALREADY EXISTS")
+        print(f"VALUE FOR KEY {node.name} ALREADY EXISTS")
         return tree
     tree = tree.insert(obj) #type: ignore
-    print(f"VALUE {json.dumps(asdict(obj))} SUCCESSFULLY INSERTED")
+    print(f"VALUE {json.dumps(asdict(node))} SUCCESSFULLY INSERTED")
     return tree
