@@ -1,9 +1,9 @@
 """Comando del intérprete para cargar datos desde un archivo JSON en el árbol."""
 
 from __future__ import annotations
-
+from typing import cast
 from pathlib import Path
-
+from.. import utils
 from ..trees import AVLTree, Comparable
 
 
@@ -46,4 +46,16 @@ def load[T: Comparable](tree: AVLTree[T] | None, filepath: str | Path) -> AVLTre
     # 2. Si tree es None, crear el AVLTree con la primera instancia e insertar las demás
     # 3. Si tree ya existe, insertar secuencialmente cada una de las instancias en tree
     # 4. Retornar la raíz del árbol resultante
-    ...
+    items = [cast(T, n) for n in utils.load_json_file(filepath)]
+
+    if tree is None:
+        tree = AVLTree(items[0])
+        for item in items[1:]:
+            tree = tree.insert(item)
+        print(f"TREE CREATED WITH {tree.size} ITEMS")
+    else:
+        before = tree.size
+        for item in items:
+            tree = tree.insert(item)
+        print(f"INSERTED {tree.size - before} NEW ELEMENTS IN TREE")
+    return tree
