@@ -1,7 +1,7 @@
 """Comando del intérprete para imprimir la estructura del árbol."""
 
 from __future__ import annotations
-
+import builtins
 from ..trees import AVLTree, Comparable
 
 
@@ -23,4 +23,8 @@ def print[T: Comparable](tree: AVLTree[T]) -> AVLTree[T]:
         AVLTree[T]: La misma referencia al árbol recibida.
     """
     # TODO: [Práctica Alumno]
-    ...
+    if tree is None:
+        builtins.print("NO TREE")
+    else:
+        builtins.print(f"TREE CONTENT: {tree}")
+    return tree

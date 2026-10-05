@@ -49,9 +49,9 @@ def insert[T: Comparable](tree: AVLTree[T], value: str) -> AVLTree[T]:
 
     node = utils.parse_json_to_node(value)
     obj = cast(T, node)
-    if obj in tree: #type: ignore
+    if obj in tree:
         print(f"VALUE FOR KEY {node.name} ALREADY EXISTS")
         return tree
-    tree = tree.insert(obj) #type: ignore
+    tree = tree.insert(obj)
     print(f"VALUE {json.dumps(asdict(node))} SUCCESSFULLY INSERTED")
     return tree
