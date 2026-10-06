@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 from dataclasses import asdict
-import json
 from ..trees import AVLTree, Comparable, Node
 from typing import cast
 
@@ -46,6 +45,5 @@ def find[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T]:
     if result is None:
         print(f"KEY {key} NOT FOUND IN TREE")
     else:
-        node = cast(Node, result.value)
         print(f"FOUND VALUE {result.value} FOR KEY {key}")
     return tree

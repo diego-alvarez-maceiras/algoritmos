@@ -1,13 +1,11 @@
 """Comando del intérprete para eliminar un valor del árbol."""
 
 from __future__ import annotations
-import json
-from dataclasses import asdict
 from typing import cast
 from ..trees import AVLTree, Comparable, Node
 
 
-def remove[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T]:
+def remove[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T] | None:
     """Elimina una entidad del árbol AVL y rebalancea la estructura si es necesario.
 
     Si el dato no existía debe imprimirse el mensaje KEY <key> NOT PRESENT IN TREE. Por ejemplo:
@@ -44,4 +42,4 @@ def remove[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T]:
     removed = node.value
     new_root = tree.remove(removed)
     print(f"VALUE {Node(name=key)} SUCCESSFULLY REMOVED")
-    return cast(AVLTree, new_root)
+    return new_root

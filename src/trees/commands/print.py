@@ -5,7 +5,7 @@ import builtins
 from ..trees import AVLTree, Comparable
 
 
-def print[T: Comparable](tree: AVLTree[T]) -> AVLTree[T]:
+def print[T: Comparable](tree: AVLTree[T]) -> AVLTree[T] | None:
     """Imprime por consola la representación del árbol actual.
 
     Debe imprimir un mensaje con el patron TREE CONTENT: AVLTree(value = ..., left = ..., right = ...). Ejemplo:
