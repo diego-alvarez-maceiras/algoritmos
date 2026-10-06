@@ -43,5 +43,5 @@ def remove[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T]:
         return tree
     removed = node.value
     new_root = tree.remove(removed)
-    print(f"VALUE {json.dumps(removed, default = asdict)} SUCCESSFULLY REMOVED")
+    print(f"VALUE {Node(name=key)} SUCCESSFULLY REMOVED")
     return cast(AVLTree, new_root)

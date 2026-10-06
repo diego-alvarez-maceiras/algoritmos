@@ -66,8 +66,8 @@ def update[T: Comparable](tree: AVLTree[T], key: str, value: str) -> AVLTree[T]:
 
     print(
         f"UPDATED ENTRY {key} IN TREE. "
-        f"ORIGINAL VALUE: {json.dumps(old_node, default=asdict)}. "
-        f"UPDATED VALUE: {json.dumps(new_node, default=asdict)}"
+        f"ORIGINAL VALUE: {old_node}. "
+        f"UPDATED VALUE: {new_node}"
     )
     return tree
     
