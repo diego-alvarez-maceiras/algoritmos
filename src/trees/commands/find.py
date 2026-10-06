@@ -47,5 +47,5 @@ def find[T: Comparable](tree: AVLTree[T], key: str) -> AVLTree[T]:
         print(f"KEY {key} NOT FOUND IN TREE")
     else:
         node = cast(Node, result.value)
-        print(f"FOUND VALUE {json.dumps(asdict(node))} FOR KEY {key}")
+        print(f"FOUND VALUE {result.value} FOR KEY {key}")
     return tree
