@@ -1,8 +1,11 @@
 """Comando del intérprete para actualizar el valor asociado a un nodo."""
 
 from __future__ import annotations
-
-from ..trees import AVLTree, Comparable
+import json
+from dataclasses import asdict
+from typing import cast
+from .. import utils
+from ..trees import AVLTree, Comparable, Node
 
 
 def update[T: Comparable](tree: AVLTree[T], key: str, value: str) -> AVLTree[T]:
@@ -47,5 +50,25 @@ def update[T: Comparable](tree: AVLTree[T], key: str, value: str) -> AVLTree[T]:
     # 2. Localizar el nodo con clave 'key'
     # 3. Actualizar el contenido garantizando que se preserve la invariante AVL
     # 4. Retornar la raíz del árbol
-    ...
+    new_node = utils.parse_json_to_node(value)
+    new_value = cast(T, new_node)
+
+    node = tree.find(cast(T, Node(name=key)))
+    if node is None:
+        print(f"KEY {key} NOT PRESENT")
+        return tree
+
+    old_node = node.value
+    if new_node.name == key:
+        node.value = new_value
+    else:
+        new_root = tree.remove(old_node)
+        tree = AVLTree(new_value) if new_root is None else new_root.insert(new_value)
+
+    print(
+        f"UPDATED ENTRY {key} IN TREE. "
+        f"ORIGINAL VALUE: {json.dumps(old_node, default=asdict)}. "
+        f"UPDATED VALUE: {json.dumps(new_node, default=asdict)}"
+    )
+    return tree
     
