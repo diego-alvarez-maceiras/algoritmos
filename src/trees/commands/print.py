@@ -24,7 +24,7 @@ def print[T: Comparable](tree: AVLTree[T]) -> AVLTree[T]:
     """
     # TODO: [Práctica Alumno]
     if tree is None:
-        builtins.print("NO TREE")
+        builtins.print("NO TREE FOUND")
     else:
         builtins.print(f"TREE CONTENT: {tree}")
     return tree
