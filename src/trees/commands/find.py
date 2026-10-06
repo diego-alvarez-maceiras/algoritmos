@@ -1,7 +1,6 @@
 """Comando del intérprete para buscar un valor en el árbol e imprimirlo."""
 
 from __future__ import annotations
-from dataclasses import asdict
 from ..trees import AVLTree, Comparable, Node
 from typing import cast
 
